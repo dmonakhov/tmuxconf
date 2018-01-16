@@ -1,12 +1,14 @@
 HOME_DIR?=$(HOME)
 INSTALL?=install
 
-.PHONY: all
-all: deps
+.PHONY: install
+install: deps
 	$(INSTALL) -m 755 tmux.conf $(HOME_DIR)/.tmux.conf
-	tmux run-shell /home/dmon/.tmux/plugins/tpm/bindings/install_plugins
+	mkdir -p $(HOME_DIR)/.tmux/plugins
+	git clone https://github.com/tmux-plugins/tpm $(HOME_DIR)/.tmux/plugins/tpm
+	tmux run-shell $(HOME_DIR).tmux/plugins/tpm/bindings/install_plugins
 
 .PHONY: deps
 deps:
-	sudo yum install -y ansifilter tmux
+	sudo yum install -y ansifilter tmux git
 
